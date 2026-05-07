@@ -4,21 +4,15 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Middle East Watch — OSINT Tracker</title>
-
-<!-- Leaflet via jsDelivr (CDN très fiable) -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.min.css"/>
 <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.min.js"></script>
-
-<!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
-
 <style>
-/* ===================== RESET & VARS ===================== */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --bg:#07090f;--bg2:#0d1018;--bg3:#131720;--bg4:#1a1f2c;
-  --b1:rgba(255,255,255,.06);--b2:rgba(255,255,255,.12);--b3:rgba(255,255,255,.22);
+  --b1:rgba(255,255,255,.06);--b2:rgba(255,255,255,.12);
   --t1:#dde2f0;--t2:#6d7590;--t3:#353d55;
   --red:#ef4444;--orange:#f97316;--yellow:#eab308;
   --blue:#3b82f6;--cyan:#22d3ee;--green:#22c55e;--purple:#a855f7;
@@ -29,24 +23,16 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--t1);font-
 ::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-thumb{background:var(--b2);border-radius:2px}
 
-/* ===================== HEADER ===================== */
-#hdr{
-  position:fixed;top:0;left:0;right:0;height:var(--hh);
-  background:var(--bg2);border-bottom:.5px solid var(--b1);
-  display:flex;align-items:center;padding:0 14px;gap:12px;z-index:1000
-}
+/* HEADER */
+#hdr{position:fixed;top:0;left:0;right:0;height:var(--hh);background:var(--bg2);
+  border-bottom:.5px solid var(--b1);display:flex;align-items:center;padding:0 14px;gap:12px;z-index:1000}
 .hl{display:flex;align-items:center;gap:9px}
-.ldot{width:7px;height:7px;border-radius:50%;background:var(--red);animation:blink 1.6s infinite;flex-shrink:0}
+.ldot{width:7px;height:7px;border-radius:50%;background:var(--red);animation:blink 1.6s infinite}
 @keyframes blink{0%,100%{opacity:1}55%{opacity:.15}}
 .ltxt{font-family:var(--fm);font-size:9px;color:var(--red);letter-spacing:.1em}
 .stitle{font-size:13px;font-weight:700;letter-spacing:.15em;text-transform:uppercase}
 .obdg{font-family:var(--fm);font-size:9px;padding:2px 8px;border-radius:3px;
   background:rgba(34,211,238,.08);color:var(--cyan);border:.5px solid rgba(34,211,238,.25)}
-.htabs{display:flex;gap:3px;margin-left:6px}
-.htab{font-family:var(--fh);font-size:11px;padding:5px 13px;border-radius:5px;
-  background:transparent;border:.5px solid transparent;color:var(--t2);cursor:pointer;transition:all .15s}
-.htab:hover{background:var(--bg4);color:var(--t1)}
-.htab.on{background:var(--bg4);color:var(--t1);border-color:var(--b2)}
 .hsep{flex:1}
 .hr{display:flex;align-items:center;gap:12px}
 .apist{display:flex;align-items:center;gap:5px}
@@ -61,21 +47,18 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--t1);font-
 .cfgbtn:hover{background:rgba(34,211,238,.16)}
 #clk{font-family:var(--fm);font-size:12px;color:var(--t2);min-width:85px}
 
-/* ===================== LAYOUT ===================== */
-#main{
-  position:fixed;top:var(--hh);left:0;right:0;bottom:var(--fh2);
-  display:grid;grid-template-columns:var(--hw) 1fr var(--rw)
-}
+/* LAYOUT */
+#main{position:fixed;top:var(--hh);left:0;right:0;bottom:var(--fh2);
+  display:grid;grid-template-columns:var(--hw) 1fr var(--rw)}
 
-/* ===================== SIDEBARS ===================== */
+/* SIDEBARS */
 #sl,#sr{background:var(--bg2);overflow-y:auto;display:flex;flex-direction:column}
 #sl{border-right:.5px solid var(--b1)}
 #sr{border-left:.5px solid var(--b1)}
 .stit{font-size:9px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
   color:var(--t3);padding:10px 12px 5px}
-
-/* layers */
-.lyr{display:flex;align-items:center;gap:8px;padding:7px 12px;cursor:pointer;transition:background .12s;user-select:none}
+.lyr{display:flex;align-items:center;gap:8px;padding:7px 12px;cursor:pointer;
+  transition:background .12s;user-select:none}
 .lyr:hover{background:rgba(255,255,255,.03)}
 .ldot2{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 .lname{font-size:11px;flex:1}
@@ -86,8 +69,6 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--t1);font-
 .tog::after{content:'';position:absolute;top:2px;left:2px;width:8px;height:8px;
   border-radius:50%;background:var(--t2);transition:left .2s,background .2s}
 .tog.on::after{left:14px;background:#fff}
-
-/* fronts */
 .frt{width:100%;text-align:left;padding:8px 12px;border:none;border-bottom:.5px solid var(--b1);
   border-left:2px solid transparent;background:transparent;color:var(--t1);
   cursor:pointer;transition:background .12s;font-family:var(--fh)}
@@ -95,11 +76,9 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--t1);font-
 .frt.on{background:rgba(34,211,238,.05);border-left-color:var(--cyan)}
 .fhd{display:flex;align-items:center;justify-content:space-between;margin-bottom:2px}
 .fn{font-size:11px;font-weight:500}
-.fbdg{font-family:var(--fm);font-size:8px;padding:1px 6px;border-radius:3px;letter-spacing:.05em}
+.fbdg{font-family:var(--fm);font-size:8px;padding:1px 6px;border-radius:3px}
 .fsub{font-size:9px;color:var(--t3);font-family:var(--fm);margin-bottom:5px}
 .fbar{height:2px;border-radius:1px}
-
-/* stats */
 .sgrid{display:grid;grid-template-columns:1fr 1fr}
 .sc{padding:10px 12px;border-bottom:.5px solid var(--b1);border-right:.5px solid var(--b1)}
 .sc:nth-child(2n){border-right:none}
@@ -107,9 +86,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--t1);font-
 .sval{font-family:var(--fm);font-size:20px;font-weight:500;line-height:1}
 .sdelta{font-family:var(--fm);font-size:9px;margin-top:3px}
 .red{color:var(--red)}.orange{color:var(--orange)}.cyan{color:var(--cyan)}
-.purple{color:var(--purple)}.green{color:var(--green)}.yellow{color:var(--yellow)}.muted{color:var(--t3)}
-
-/* events */
+.purple{color:var(--purple)}.green{color:var(--green)}.muted{color:var(--t3)}
 .ev{padding:9px 12px;border-bottom:.5px solid var(--b1);cursor:pointer;transition:background .12s}
 .ev:hover{background:var(--bg3)}
 .etm{font-family:var(--fm);font-size:9px;color:var(--t3)}
@@ -117,13 +94,13 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--t1);font-
 .esrc{font-size:9px;color:var(--cyan)}
 .etags{display:flex;gap:3px;flex-wrap:wrap;margin-top:3px}
 .etag{font-size:8px;padding:1px 5px;border-radius:3px;font-family:var(--fm)}
-.et-strikes {background:rgba(239,68,68,.12); color:var(--red);   border:.5px solid rgba(239,68,68,.3)}
-.et-ground  {background:rgba(249,115,22,.12);color:var(--orange);border:.5px solid rgba(249,115,22,.3)}
+.et-strikes{background:rgba(239,68,68,.12);color:var(--red);border:.5px solid rgba(239,68,68,.3)}
+.et-ground{background:rgba(249,115,22,.12);color:var(--orange);border:.5px solid rgba(249,115,22,.3)}
 .et-missiles{background:rgba(168,85,247,.12);color:var(--purple);border:.5px solid rgba(168,85,247,.3)}
-.et-naval   {background:rgba(59,130,246,.12);color:var(--blue);  border:.5px solid rgba(59,130,246,.3)}
-.et-diplo   {background:rgba(34,197,94,.12); color:var(--green); border:.5px solid rgba(34,197,94,.3)}
+.et-naval{background:rgba(59,130,246,.12);color:var(--blue);border:.5px solid rgba(59,130,246,.3)}
+.et-diplo{background:rgba(34,197,94,.12);color:var(--green);border:.5px solid rgba(34,197,94,.3)}
 
-/* ===================== MAP ===================== */
+/* MAP */
 #mc{position:relative;background:var(--bg);overflow:hidden}
 #map{width:100%;height:100%}
 .leaflet-container{background:#080c14!important}
@@ -145,13 +122,12 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--t1);font-
 .poptag{font-size:8px;padding:1px 6px;border-radius:3px;font-family:var(--fm)}
 #mctrl{position:absolute;bottom:12px;left:12px;display:flex;gap:5px;z-index:500}
 .mbtn{background:rgba(7,9,15,.92);border:.5px solid var(--b2);color:var(--t2);
-  font-family:var(--fm);font-size:10px;padding:5px 12px;border-radius:4px;
-  cursor:pointer;transition:all .15s}
+  font-family:var(--fm);font-size:10px;padding:5px 12px;border-radius:4px;cursor:pointer;transition:all .15s}
 .mbtn:hover,.mbtn.on{color:var(--cyan);border-color:var(--cyan);background:rgba(34,211,238,.08)}
 .msrc{position:absolute;bottom:12px;right:12px;font-family:var(--fm);font-size:9px;
   color:var(--t3);background:rgba(7,9,15,.75);padding:3px 8px;border-radius:3px;z-index:500}
 
-/* ===================== FOOTER ===================== */
+/* FOOTER */
 #ftr{position:fixed;bottom:0;left:0;right:0;height:var(--fh2);
   background:var(--bg2);border-top:.5px solid var(--b1);display:flex;overflow-x:auto;z-index:1000}
 .cc{flex:1;min-width:110px;padding:10px 14px;border:none;
@@ -167,44 +143,61 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--t1);font-
 .ccfill{height:3px;border-radius:2px}
 .cclbl{font-family:var(--fm);font-size:8px}
 
-/* ===================== MODAL ===================== */
+/* MODAL */
 #modal{position:fixed;inset:0;background:rgba(7,9,15,.88);z-index:2000;
   display:none;align-items:center;justify-content:center}
 #modal.show{display:flex}
 .mbox{background:var(--bg2);border:.5px solid var(--b2);border-radius:12px;
-  width:480px;max-height:80vh;overflow-y:auto}
+  width:500px;max-height:86vh;overflow-y:auto}
 .mhdr{display:flex;align-items:center;justify-content:space-between;
   padding:18px 22px 14px;border-bottom:.5px solid var(--b1)}
 .mhdr h2{font-size:15px;font-weight:600;color:var(--cyan)}
 .mclose{background:none;border:none;color:var(--t2);font-size:22px;cursor:pointer}
 .mclose:hover{color:var(--t1)}
 .mbody{padding:18px 22px}
-.step{display:flex;gap:12px;margin-bottom:14px}
+
+/* Steps dans la modale */
+.step{display:flex;gap:12px;margin-bottom:14px;align-items:flex-start}
 .snum{width:22px;height:22px;border-radius:50%;background:rgba(34,211,238,.1);
   border:.5px solid rgba(34,211,238,.3);color:var(--cyan);font-family:var(--fm);font-size:10px;
   display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
-.stxt strong{display:block;font-size:12px;color:var(--t1);margin-bottom:2px}
-.stxt p{font-size:11px;color:var(--t2);line-height:1.5}
-.stxt a{color:var(--cyan)}
+.stxt strong{display:block;font-size:12px;color:var(--t1);margin-bottom:3px;font-weight:600}
+.stxt p{font-size:11px;color:var(--t2);line-height:1.6}
+.stxt a{color:var(--cyan);text-decoration:none}
+.stxt a:hover{text-decoration:underline}
+
+.msep{height:.5px;background:var(--b1);margin:18px 0}
+
+/* Alerte info */
+.minfo{background:rgba(34,211,238,.06);border:.5px solid rgba(34,211,238,.2);
+  border-radius:6px;padding:12px 14px;margin-bottom:16px}
+.minfo-title{font-family:var(--fm);font-size:10px;font-weight:600;color:var(--cyan);
+  letter-spacing:.08em;margin-bottom:6px}
+.minfo p{font-size:11px;color:var(--t2);line-height:1.6}
+.minfo code{font-family:var(--fm);color:var(--cyan);font-size:10px}
+
 .fg{margin-bottom:14px}
 .fg label{display:block;font-size:9px;font-weight:600;letter-spacing:.14em;
   text-transform:uppercase;color:var(--t3);margin-bottom:6px}
 .fg input{width:100%;background:var(--bg3);border:.5px solid var(--b2);border-radius:5px;
-  padding:8px 12px;font-family:var(--fm);font-size:11px;color:var(--t1);outline:none;transition:border-color .15s}
+  padding:9px 12px;font-family:var(--fm);font-size:12px;color:var(--t1);outline:none;transition:border-color .15s}
 .fg input:focus{border-color:var(--cyan)}
+.fg input::placeholder{color:var(--t3)}
+
 .sbtn{width:100%;background:rgba(34,211,238,.1);border:.5px solid rgba(34,211,238,.3);
   color:var(--cyan);font-family:var(--fm);font-size:12px;padding:10px;border-radius:6px;
   cursor:pointer;transition:all .15s;margin-top:4px}
 .sbtn:hover{background:rgba(34,211,238,.2)}
-.sbtn:disabled{opacity:.5;cursor:not-allowed}
-.anote{margin-top:18px;padding:12px 14px;background:var(--bg3);border:.5px solid var(--b1);border-radius:6px}
-.antit{font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--t3);margin-bottom:6px}
-.anote code{font-family:var(--fm);font-size:10px;color:var(--cyan);line-height:1.6;word-break:break-all;display:block}
+.sbtn:disabled{opacity:.45;cursor:not-allowed}
+
+#msg-zone{margin-top:12px;font-family:var(--fm);font-size:11px;text-align:center;min-height:18px}
+.msg-ok{color:var(--green)}
+.msg-err{color:var(--red)}
+.msg-warn{color:var(--yellow)}
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <header id="hdr">
   <div class="hl">
     <div class="ldot"></div>
@@ -212,53 +205,46 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--t1);font-
     <span class="stitle">Middle East Watch</span>
     <span class="obdg">OSINT</span>
   </div>
-  <nav class="htabs">
-    <button class="htab on" data-tab="map">Carte</button>
-    <button class="htab" data-tab="stats">Stats</button>
-  </nav>
   <div class="hsep"></div>
   <div class="hr">
     <div class="apist" id="acled-hdr">
       <div class="apdot off"></div>
-      <span class="aplbl">ACLED — non configuré</span>
+      <span class="aplbl">ACLED — non connecté</span>
     </div>
-    <button class="cfgbtn" id="opencfg">⚙ Config API</button>
+    <button class="cfgbtn" id="opencfg">⚙ Connexion ACLED</button>
     <div id="clk">--:-- UTC</div>
   </div>
 </header>
 
-<!-- MAIN -->
 <div id="main">
-
   <!-- SIDEBAR GAUCHE -->
   <aside id="sl">
     <div class="stit">Couches de données</div>
-
-    <div class="lyr" id="ly-strikes" onclick="togLayer('strikes')">
+    <div class="lyr" onclick="togLayer('strikes')">
       <div class="ldot2" style="background:var(--red)"></div>
       <span class="lname">Frappes aériennes</span>
       <span class="lcnt" id="cnt-strikes">0</span>
       <div class="tog on" id="tog-strikes"></div>
     </div>
-    <div class="lyr" id="ly-ground" onclick="togLayer('ground')">
+    <div class="lyr" onclick="togLayer('ground')">
       <div class="ldot2" style="background:var(--orange)"></div>
       <span class="lname">Combats terrestres</span>
       <span class="lcnt" id="cnt-ground">0</span>
       <div class="tog on" id="tog-ground"></div>
     </div>
-    <div class="lyr" id="ly-missiles" onclick="togLayer('missiles')">
+    <div class="lyr" onclick="togLayer('missiles')">
       <div class="ldot2" style="background:var(--purple)"></div>
       <span class="lname">Missiles / Roquettes</span>
       <span class="lcnt" id="cnt-missiles">0</span>
       <div class="tog on" id="tog-missiles"></div>
     </div>
-    <div class="lyr" id="ly-naval" onclick="togLayer('naval')">
+    <div class="lyr" onclick="togLayer('naval')">
       <div class="ldot2" style="background:var(--blue)"></div>
       <span class="lname">Incidents navals</span>
       <span class="lcnt" id="cnt-naval">0</span>
       <div class="tog" id="tog-naval"></div>
     </div>
-    <div class="lyr" id="ly-diplo" onclick="togLayer('diplo')">
+    <div class="lyr" onclick="togLayer('diplo')">
       <div class="ldot2" style="background:var(--green)"></div>
       <span class="lname">Diplomatique</span>
       <span class="lcnt" id="cnt-diplo">0</span>
@@ -266,7 +252,6 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--t1);font-
     </div>
 
     <div class="stit" style="margin-top:6px">Fronts actifs</div>
-
     <button class="frt on" data-front="all" data-lat="28" data-lng="42" data-z="5" onclick="setFront(this)">
       <div class="fhd"><span class="fn">Tous les fronts</span></div>
       <div class="fsub">Vue régionale globale</div>
@@ -304,7 +289,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--t1);font-
     </button>
   </aside>
 
-  <!-- CARTE -->
+  <!-- MAP -->
   <div id="mc">
     <div id="map"></div>
     <div id="mctrl">
@@ -330,346 +315,368 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--t1);font-
 
 <!-- FOOTER -->
 <footer id="ftr">
-  <button class="cc on" data-front="all" onclick="setFrontCC(this)">
-    <div class="ccn">GLOBAL</div><div class="ccs">Tous fronts</div>
-    <div class="ccbar"><div class="ccfill" style="width:60px;background:var(--cyan)"></div><span class="cclbl" style="color:var(--cyan)">ACTIF</span></div>
-  </button>
-  <button class="cc" data-front="gaza" onclick="setFrontCC(this)">
-    <div class="ccn">GAZA</div><div class="ccs">IDF / Hamas</div>
-    <div class="ccbar"><div class="ccfill" style="width:55px;background:var(--red)"></div><span class="cclbl" style="color:var(--red)">INTENSE</span></div>
-  </button>
-  <button class="cc" data-front="iran" onclick="setFrontCC(this)">
-    <div class="ccn">IRAN</div><div class="ccs">US-IDF / IRGC</div>
-    <div class="ccbar"><div class="ccfill" style="width:48px;background:var(--orange)"></div><span class="cclbl" style="color:var(--orange)">ÉLEVÉ</span></div>
-  </button>
-  <button class="cc" data-front="liban" onclick="setFrontCC(this)">
-    <div class="ccn">LIBAN</div><div class="ccs">IDF / Hezbollah</div>
-    <div class="ccbar"><div class="ccfill" style="width:34px;background:var(--yellow)"></div><span class="cclbl" style="color:var(--yellow)">MODÉRÉ</span></div>
-  </button>
-  <button class="cc" data-front="yemen" onclick="setFrontCC(this)">
-    <div class="ccn">YÉMEN</div><div class="ccs">Houthis / Marine</div>
-    <div class="ccbar"><div class="ccfill" style="width:36px;background:var(--yellow)"></div><span class="cclbl" style="color:var(--yellow)">MODÉRÉ</span></div>
-  </button>
-  <button class="cc" data-front="syrie" onclick="setFrontCC(this)">
-    <div class="ccn">SYRIE</div><div class="ccs">IDF / Pro-Iran</div>
-    <div class="ccbar"><div class="ccfill" style="width:20px;background:#64748b"></div><span class="cclbl" style="color:#94a3b8">FAIBLE</span></div>
-  </button>
-  <button class="cc" data-front="irak" onclick="setFrontCC(this)">
-    <div class="ccn">IRAK</div><div class="ccs">PMF / Bases US</div>
-    <div class="ccbar"><div class="ccfill" style="width:15px;background:#64748b"></div><span class="cclbl" style="color:#94a3b8">FAIBLE</span></div>
-  </button>
+  <button class="cc on" data-front="all" onclick="setFrontCC(this)"><div class="ccn">GLOBAL</div><div class="ccs">Tous fronts</div><div class="ccbar"><div class="ccfill" style="width:60px;background:var(--cyan)"></div><span class="cclbl" style="color:var(--cyan)">ACTIF</span></div></button>
+  <button class="cc" data-front="gaza" onclick="setFrontCC(this)"><div class="ccn">GAZA</div><div class="ccs">IDF / Hamas</div><div class="ccbar"><div class="ccfill" style="width:55px;background:var(--red)"></div><span class="cclbl" style="color:var(--red)">INTENSE</span></div></button>
+  <button class="cc" data-front="iran" onclick="setFrontCC(this)"><div class="ccn">IRAN</div><div class="ccs">US-IDF / IRGC</div><div class="ccbar"><div class="ccfill" style="width:48px;background:var(--orange)"></div><span class="cclbl" style="color:var(--orange)">ÉLEVÉ</span></div></button>
+  <button class="cc" data-front="liban" onclick="setFrontCC(this)"><div class="ccn">LIBAN</div><div class="ccs">IDF / Hezbollah</div><div class="ccbar"><div class="ccfill" style="width:34px;background:var(--yellow)"></div><span class="cclbl" style="color:var(--yellow)">MODÉRÉ</span></div></button>
+  <button class="cc" data-front="yemen" onclick="setFrontCC(this)"><div class="ccn">YÉMEN</div><div class="ccs">Houthis / Marine</div><div class="ccbar"><div class="ccfill" style="width:36px;background:var(--yellow)"></div><span class="cclbl" style="color:var(--yellow)">MODÉRÉ</span></div></button>
+  <button class="cc" data-front="syrie" onclick="setFrontCC(this)"><div class="ccn">SYRIE</div><div class="ccs">IDF / Pro-Iran</div><div class="ccbar"><div class="ccfill" style="width:20px;background:#64748b"></div><span class="cclbl" style="color:#94a3b8">FAIBLE</span></div></button>
+  <button class="cc" data-front="irak" onclick="setFrontCC(this)"><div class="ccn">IRAK</div><div class="ccs">PMF / Bases US</div><div class="ccbar"><div class="ccfill" style="width:15px;background:#64748b"></div><span class="cclbl" style="color:#94a3b8">FAIBLE</span></div></button>
 </footer>
 
-<!-- MODAL CONFIG ACLED -->
+<!-- MODAL CONNEXION ACLED (nouveau système OAuth email+password) -->
 <div id="modal">
   <div class="mbox">
     <div class="mhdr">
-      <h2>Configurer l'API ACLED</h2>
+      <h2>Connexion ACLED</h2>
       <button class="mclose" onclick="closeCfg()">×</button>
     </div>
     <div class="mbody">
-      <div class="step"><div class="snum">1</div><div class="stxt"><strong>Créer un compte gratuit</strong><p>Allez sur <a href="https://acleddata.com/register" target="_blank">acleddata.com/register</a>. Utilisez un email institutionnel pour un meilleur niveau d'accès.</p></div></div>
-      <div class="step"><div class="snum">2</div><div class="stxt"><strong>Vérifier l'email et accepter les Terms of Use</strong><p>Cliquez le lien reçu par email, puis acceptez les conditions dans votre dashboard.</p></div></div>
-      <div class="step"><div class="snum">3</div><div class="stxt"><strong>Générer votre clé API</strong><p>Dans votre dashboard ACLED, cliquez "Add New Key". <strong>Copiez-la immédiatement</strong> — elle ne s'affiche qu'une fois.</p></div></div>
-      <div class="step"><div class="snum">4</div><div class="stxt"><strong>Entrez vos identifiants ci-dessous</strong></div></div>
-      <div class="fg"><label>Email ACLED</label><input type="email" id="inp-email" placeholder="votre@email.com"/></div>
-      <div class="fg"><label>Clé API</label><input type="text" id="inp-key" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"/></div>
-      <button class="sbtn" id="savebtn" onclick="saveACLED()">Connecter et charger les données</button>
-      <div class="anote" style="margin-top:18px">
-        <div class="antit">URL API utilisée</div>
-        <code>https://api.acleddata.com/acled/read?key=…&email=…&region=11,12&limit=300</code>
-        <p style="margin-top:8px;font-size:11px;color:var(--t3)">Région 11 = Moyen-Orient · Région 12 = Maghreb</p>
+
+      <div class="minfo">
+        <div class="minfo-title">ℹ NOUVEAU SYSTÈME ACLED (depuis sept. 2025)</div>
+        <p>ACLED n'utilise <strong style="color:var(--t1)">plus de clé API</strong>. Il suffit maintenant de ton <strong style="color:var(--t1)">email + mot de passe</strong> du compte acleddata.com. L'authentification se fait via OAuth automatiquement.</p>
       </div>
+
+      <div class="step">
+        <div class="snum">1</div>
+        <div class="stxt">
+          <strong>Créer un compte gratuit</strong>
+          <p>Va sur <a href="https://acleddata.com/user/register" target="_blank">acleddata.com/user/register</a> et remplis le formulaire. Utilise un email universitaire ou professionnel si possible.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="snum">2</div>
+        <div class="stxt">
+          <strong>Vérifier ton email</strong>
+          <p>Clique le lien de vérification reçu dans ta boîte mail.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="snum">3</div>
+        <div class="stxt">
+          <strong>Accepter les Terms of Use</strong>
+          <p>Connecte-toi sur <a href="https://acleddata.com" target="_blank">acleddata.com</a>, clique "Terms of Use" dans ton dashboard et coche la case en bas. <strong style="color:var(--t1)">Obligatoire</strong> avant de pouvoir accéder aux données.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="snum">4</div>
+        <div class="stxt">
+          <strong>Entre tes identifiants ci-dessous</strong>
+          <p>Ton email et ton mot de passe ACLED suffisent — plus de clé à générer.</p>
+        </div>
+      </div>
+
+      <div class="msep"></div>
+
+      <div class="fg">
+        <label>Email ACLED</label>
+        <input type="email" id="inp-email" placeholder="votre@email.com"/>
+      </div>
+      <div class="fg">
+        <label>Mot de passe ACLED</label>
+        <input type="password" id="inp-pass" placeholder="••••••••••"/>
+      </div>
+
+      <button class="sbtn" id="savebtn" onclick="connectACLED()">Se connecter et charger les données</button>
+      <div id="msg-zone"></div>
+
+      <div class="msep"></div>
+      <p style="font-size:10px;color:var(--t3);line-height:1.6;font-family:var(--fm)">
+        Ton mot de passe n'est jamais stocké. Il est utilisé une seule fois pour obtenir un token OAuth valable 24h, conservé uniquement en mémoire de la page.
+      </p>
     </div>
   </div>
 </div>
 
 <script>
-// ============================================================
-// DONNÉES STATIQUES (affichées dès le démarrage, sans ACLED)
-// ============================================================
+// ================================================================
+// DONNÉES STATIQUES — affichées sans connexion ACLED
+// ================================================================
 const EVENTS = [
-  {lat:31.50,lng:34.46,type:'strikes', front:'gaza', title:'Frappe IDF — Jabalia, Gaza Nord',         src:'IDF Spokesperson',   time:'8 min',  fat:4},
-  {lat:31.35,lng:34.30,type:'strikes', front:'gaza', title:'Frappe IDF — Khan Yunis',                 src:'Reuters',            time:'25 min', fat:2},
-  {lat:31.29,lng:34.27,type:'ground',  front:'gaza', title:'Combats urbains — Rafah',                 src:'GeoConfirmed',       time:'41 min', fat:0},
-  {lat:31.47,lng:34.43,type:'missiles',front:'gaza', title:'Roquette PIJ — interceptée (Iron Dome)',  src:'IDF',                time:'52 min', fat:0},
-  {lat:31.52,lng:34.45,type:'strikes', front:'gaza', title:'Frappe IDF — Beit Lahiya',                src:'AP',                 time:'1h 20',  fat:1},
-  {lat:31.40,lng:34.35,type:'ground',  front:'gaza', title:'Opération terrestre — Gaza Centre',       src:'Haaretz',            time:'2h 05',  fat:0},
-  {lat:33.27,lng:35.20,type:'strikes', front:'liban',title:"Frappe IDF — Tyr, Liban Sud",             src:"L'Orient Today",     time:'1h 10',  fat:1},
-  {lat:33.35,lng:35.40,type:'missiles',front:'liban',title:'Roquette Hezbollah → Galilée',            src:'IDF',                time:'1h 35',  fat:0},
-  {lat:33.88,lng:35.50,type:'strikes', front:'liban',title:'Frappe IDF — banlieue sud Beyrouth',      src:'AP',                 time:'3h',     fat:3},
-  {lat:33.55,lng:35.37,type:'missiles',front:'liban',title:'Roquette — Kiryat Shmona',               src:'IDF',                time:'4h 15',  fat:0},
-  {lat:35.69,lng:51.39,type:'strikes', front:'iran', title:'Frappe US/IDF — Téhéran, site militaire', src:'CENTCOM',            time:'7h',     fat:0},
-  {lat:32.65,lng:51.68,type:'strikes', front:'iran', title:'Frappe US — Isfahan (site Fordow)',        src:'BBC',                time:'12h',    fat:0},
-  {lat:35.50,lng:51.20,type:'missiles',front:'iran', title:'Missile balistique IRGC → Israël',        src:'IranWarLive',        time:'8h',     fat:0},
-  {lat:38.08,lng:46.29,type:'strikes', front:'iran', title:'Frappe IDF — Tabriz, dépôt IRGC',         src:'NYT',                time:'16h',    fat:0},
-  {lat:29.61,lng:52.53,type:'strikes', front:'iran', title:'Frappe US — Shiraz, base aérienne',       src:'Reuters',            time:'20h',    fat:2},
-  {lat:14.79,lng:42.95,type:'missiles',front:'yemen',title:'Drone Houthi lancé — Hodeidah',           src:'MarineTraffic',      time:'5h',     fat:0},
-  {lat:13.97,lng:44.20,type:'missiles',front:'yemen',title:'Missile Houthi → couloir maritime',       src:'US Navy / NAVCENT',  time:'9h',     fat:0},
-  {lat:15.35,lng:42.60,type:'naval',   front:'yemen',title:'Navire intercepté — Mer Rouge',           src:"Lloyd's List",       time:'11h',    fat:0},
-  {lat:12.78,lng:45.03,type:'naval',   front:'yemen',title:'Alerte navigation — Golfe Aden',          src:'UKMTO',              time:'14h',    fat:0},
-  {lat:33.51,lng:36.29,type:'strikes', front:'syrie',title:'Frappe IDF — dépôt Damas pro-Iran',       src:'SOHR',               time:'20h',    fat:0},
-  {lat:34.80,lng:36.71,type:'strikes', front:'syrie',title:'Frappe IDF — Homs, couloir iranien',      src:'Reuters',            time:'22h',    fat:0},
-  {lat:33.34,lng:44.40,type:'ground',  front:'irak', title:'Attaque roquette PMF — base Al-Assad',    src:'CENTCOM',            time:'hier',   fat:1},
-  {lat:36.34,lng:43.13,type:'ground',  front:'irak', title:'Incident sécuritaire — Mossoul',          src:'Kurdistan 24',       time:'hier',   fat:0},
-  {lat:31.77,lng:35.21,type:'diplo',   front:'global',title:"Réunion d'urgence ONU — Conseil sécurité",src:'UN News',          time:'6h',     fat:0},
-  {lat:25.20,lng:55.27,type:'diplo',   front:'global',title:'Négociations Qatar — médiation Gaza',    src:'Al Jazeera',         time:'10h',    fat:0},
+  {lat:31.50,lng:34.46,type:'strikes', front:'gaza', title:'Frappe IDF — Jabalia, Gaza Nord',          src:'IDF Spokesperson', time:'8 min',  fat:4},
+  {lat:31.35,lng:34.30,type:'strikes', front:'gaza', title:'Frappe IDF — Khan Yunis',                  src:'Reuters',          time:'25 min', fat:2},
+  {lat:31.29,lng:34.27,type:'ground',  front:'gaza', title:'Combats urbains — Rafah',                  src:'GeoConfirmed',     time:'41 min', fat:0},
+  {lat:31.47,lng:34.43,type:'missiles',front:'gaza', title:'Roquette PIJ interceptée (Iron Dome)',     src:'IDF',              time:'52 min', fat:0},
+  {lat:31.52,lng:34.45,type:'strikes', front:'gaza', title:'Frappe IDF — Beit Lahiya',                 src:'AP',               time:'1h 20',  fat:1},
+  {lat:31.40,lng:34.35,type:'ground',  front:'gaza', title:'Opération terrestre IDF — Gaza Centre',   src:'Haaretz',          time:'2h 05',  fat:0},
+  {lat:33.27,lng:35.20,type:'strikes', front:'liban',title:"Frappe IDF — Tyr, Liban Sud",              src:"L'Orient Today",   time:'1h 10',  fat:1},
+  {lat:33.35,lng:35.40,type:'missiles',front:'liban',title:'Roquette Hezbollah → Galilée',             src:'IDF',              time:'1h 35',  fat:0},
+  {lat:33.88,lng:35.50,type:'strikes', front:'liban',title:'Frappe IDF — banlieue sud Beyrouth',      src:'AP',               time:'3h',     fat:3},
+  {lat:35.69,lng:51.39,type:'strikes', front:'iran', title:'Frappe US/IDF — Téhéran, site militaire', src:'CENTCOM',          time:'7h',     fat:0},
+  {lat:32.65,lng:51.68,type:'strikes', front:'iran', title:'Frappe US — Isfahan (Fordow)',              src:'BBC',              time:'12h',    fat:0},
+  {lat:35.50,lng:51.20,type:'missiles',front:'iran', title:'Missile balistique IRGC → Israël',         src:'IranWarLive',      time:'8h',     fat:0},
+  {lat:38.08,lng:46.29,type:'strikes', front:'iran', title:'Frappe IDF — Tabriz, dépôt IRGC',          src:'NYT',              time:'16h',    fat:0},
+  {lat:14.79,lng:42.95,type:'missiles',front:'yemen',title:'Drone Houthi lancé — Hodeidah',            src:'MarineTraffic',    time:'5h',     fat:0},
+  {lat:13.97,lng:44.20,type:'missiles',front:'yemen',title:'Missile Houthi → couloir maritime',        src:'US Navy',          time:'9h',     fat:0},
+  {lat:15.35,lng:42.60,type:'naval',   front:'yemen',title:'Navire intercepté — Mer Rouge',            src:"Lloyd's List",     time:'11h',    fat:0},
+  {lat:33.51,lng:36.29,type:'strikes', front:'syrie',title:'Frappe IDF — dépôt Damas pro-Iran',        src:'SOHR',             time:'20h',    fat:0},
+  {lat:34.80,lng:36.71,type:'strikes', front:'syrie',title:'Frappe IDF — Homs, couloir iranien',       src:'Reuters',          time:'22h',    fat:0},
+  {lat:33.34,lng:44.40,type:'ground',  front:'irak', title:'Attaque roquette PMF — base Al-Assad',    src:'CENTCOM',          time:'hier',   fat:1},
+  {lat:31.77,lng:35.21,type:'diplo',   front:'global',title:"Réunion urgence ONU — Conseil sécurité", src:'UN News',          time:'6h',     fat:0},
+  {lat:25.20,lng:55.27,type:'diplo',   front:'global',title:'Négociations Qatar — médiation Gaza',    src:'Al Jazeera',       time:'10h',    fat:0},
 ];
 
 const COLORS = {strikes:'#ef4444',ground:'#f97316',missiles:'#a855f7',naval:'#3b82f6',diplo:'#22c55e'};
 const LABELS = {strikes:'FRAPPE',ground:'TERRESTRE',missiles:'MISSILE',naval:'NAVAL',diplo:'DIPLO'};
-
 const TILES = {
-  dark:  ['https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',  'abcd', '&copy; <a href="https://carto.com/">CARTO</a> &copy; OSM'],
-  topo:  ['https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',               'abc',  '&copy; OpenTopoMap'],
-  sat:   ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', '', '&copy; Esri'],
+  dark: ['https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png','abcd','&copy; CARTO &copy; OSM'],
+  topo: ['https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png','abc','&copy; OpenTopoMap'],
+  sat:  ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}','','&copy; Esri'],
 };
 
-// ============================================================
-// ÉTAT GLOBAL
-// ============================================================
+// ================================================================
+// ÉTAT
+// ================================================================
 let map, tile;
-let groups = {};        // LayerGroup par type
+let groups = {};
 let vis = {strikes:true,ground:true,missiles:true,naval:false,diplo:false};
 let curFront = 'all';
 let allEvs = EVENTS;
-let acledKey = '', acledEmail = '';
+let accessToken = '';   // Token OAuth ACLED (valable 24h)
 
-// ============================================================
+// ================================================================
 // CARTE
-// ============================================================
+// ================================================================
 function initMap() {
-  map = L.map('map', {center:[28,42], zoom:5, zoomControl:false});
+  map = L.map('map',{center:[28,42],zoom:5,zoomControl:false});
   L.control.zoom({position:'bottomright'}).addTo(map);
-
-  tile = L.tileLayer(TILES.dark[0], {subdomains:TILES.dark[1], attribution:TILES.dark[2], maxZoom:18}).addTo(map);
-
+  tile = L.tileLayer(TILES.dark[0],{subdomains:TILES.dark[1],attribution:TILES.dark[2],maxZoom:18}).addTo(map);
   Object.keys(vis).forEach(t => {
     groups[t] = L.layerGroup();
-    if (vis[t]) groups[t].addTo(map);
+    if(vis[t]) groups[t].addTo(map);
   });
 }
 
 function makeIcon(type) {
-  const c = COLORS[type] || '#aaa';
-  const s = type === 'strikes' ? 13 : 10;
-  return L.divIcon({
-    className:'',
+  const c = COLORS[type]||'#aaa', s = type==='strikes'?13:10;
+  return L.divIcon({className:'',
     html:`<div style="width:${s}px;height:${s}px;border-radius:50%;background:${c};
       border:1.5px solid rgba(255,255,255,.3);box-shadow:0 0 7px ${c}99;cursor:pointer"></div>`,
-    iconSize:[s,s], iconAnchor:[s/2,s/2], popupAnchor:[0,-s/2]
-  });
+    iconSize:[s,s],iconAnchor:[s/2,s/2],popupAnchor:[0,-s/2]});
 }
 
 function popHTML(ev) {
-  const fat = ev.fat > 0 ? `<div class="poprow">Victimes: <span style="color:var(--red)">${ev.fat}</span></div>` : '';
-  const c = COLORS[ev.type]||'#aaa', lbl = LABELS[ev.type]||ev.type.toUpperCase();
-  const tag = `<span class="poptag" style="background:${c}22;color:${c};border:.5px solid ${c}55">${lbl}</span>`;
+  const fat = ev.fat>0?`<div class="poprow">Victimes: <span style="color:var(--red)">${ev.fat}</span></div>`:'';
+  const c=COLORS[ev.type]||'#aaa', lbl=LABELS[ev.type]||ev.type.toUpperCase();
   return `<div style="min-width:190px">
     <div class="poptitle">${ev.title}</div>
-    <div class="poprow">Il y a ${ev.time} · <span>${ev.src}</span></div>
-    ${fat}
-    <div class="poptags">${tag}</div>
+    <div class="poprow">Il y a ${ev.time} · <span>${ev.src}</span></div>${fat}
+    <div class="poptags"><span class="poptag" style="background:${c}22;color:${c};border:.5px solid ${c}55">${lbl}</span></div>
   </div>`;
 }
 
 function drawMarkers(evs) {
-  Object.values(groups).forEach(g => g.clearLayers());
-  evs.forEach(ev => {
-    if (!groups[ev.type]) return;
-    L.marker([ev.lat, ev.lng], {icon: makeIcon(ev.type)})
-      .bindPopup(popHTML(ev), {maxWidth:260})
-      .addTo(groups[ev.type]);
+  Object.values(groups).forEach(g=>g.clearLayers());
+  evs.forEach(ev=>{
+    if(!groups[ev.type]) return;
+    L.marker([ev.lat,ev.lng],{icon:makeIcon(ev.type)}).bindPopup(popHTML(ev),{maxWidth:260}).addTo(groups[ev.type]);
   });
 }
 
 function setTile(btn) {
-  document.querySelectorAll('.mbtn').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('.mbtn').forEach(b=>b.classList.remove('on'));
   btn.classList.add('on');
-  const k = btn.dataset.tile;
-  if (!TILES[k]) return;
+  const k=btn.dataset.tile;
   map.removeLayer(tile);
-  tile = L.tileLayer(TILES[k][0], {subdomains:TILES[k][1], attribution:TILES[k][2], maxZoom:18}).addTo(map);
+  tile=L.tileLayer(TILES[k][0],{subdomains:TILES[k][1],attribution:TILES[k][2],maxZoom:18}).addTo(map);
 }
 
-// ============================================================
-// LAYERS
-// ============================================================
+// ================================================================
+// LAYERS / FRONTS
+// ================================================================
 function togLayer(type) {
-  vis[type] = !vis[type];
-  const tog = document.getElementById('tog-'+type);
-  vis[type] ? tog.classList.add('on') : tog.classList.remove('on');
-  vis[type] ? groups[type].addTo(map) : map.removeLayer(groups[type]);
+  vis[type]=!vis[type];
+  const tog=document.getElementById('tog-'+type);
+  vis[type]?tog.classList.add('on'):tog.classList.remove('on');
+  vis[type]?groups[type].addTo(map):map.removeLayer(groups[type]);
 }
 
-// ============================================================
-// FRONTS
-// ============================================================
 function setFront(btn) {
-  document.querySelectorAll('.frt').forEach(b => b.classList.remove('on'));
-  document.querySelectorAll('.cc').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('.frt').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.cc').forEach(b=>b.classList.remove('on'));
   btn.classList.add('on');
-  const f = btn.dataset.front;
-  curFront = f;
-  const ccBtn = document.querySelector(`.cc[data-front="${f}"]`);
-  if (ccBtn) ccBtn.classList.add('on');
-  renderList(f);
-  const evs = f === 'all' ? allEvs : allEvs.filter(e => e.front === f);
-  drawMarkers(evs);
-  const lat = parseFloat(btn.dataset.lat), lng = parseFloat(btn.dataset.lng), z = parseInt(btn.dataset.z)||7;
-  if (!isNaN(lat)) map.flyTo([lat, lng], z, {animate:true, duration:1.2});
-  else map.flyTo([28,42], 5, {animate:true, duration:1});
+  curFront=btn.dataset.front;
+  const ccEl=document.querySelector(`.cc[data-front="${curFront}"]`);
+  if(ccEl) ccEl.classList.add('on');
+  const evs=curFront==='all'?allEvs:allEvs.filter(e=>e.front===curFront);
+  renderList(curFront); drawMarkers(evs);
+  const lat=parseFloat(btn.dataset.lat),lng=parseFloat(btn.dataset.lng),z=parseInt(btn.dataset.z)||7;
+  if(!isNaN(lat)) map.flyTo([lat,lng],z,{animate:true,duration:1.2});
+  else map.flyTo([28,42],5,{animate:true,duration:1});
 }
 
 function setFrontCC(btn) {
-  const f = btn.dataset.front;
-  const fBtn = document.querySelector(`.frt[data-front="${f}"]`);
-  if (fBtn) setFront(fBtn);
+  const el=document.querySelector(`.frt[data-front="${btn.dataset.front}"]`);
+  if(el) setFront(el);
 }
 
-// ============================================================
-// EVENT LIST + STATS
-// ============================================================
+// ================================================================
+// EVENTS + STATS
+// ================================================================
 function renderList(front) {
-  const list = document.getElementById('evlist');
-  list.innerHTML = '';
-  const data = front === 'all' ? allEvs : allEvs.filter(e => e.front === front);
-  if (!data.length) {
-    list.innerHTML = '<div style="padding:14px 12px;font-size:11px;color:var(--t3)">Aucun évènement.</div>';
-    return;
-  }
-  data.slice(0, 30).forEach(ev => {
-    const d = document.createElement('div');
-    d.className = 'ev';
-    const c = COLORS[ev.type]||'#aaa', lbl = LABELS[ev.type]||ev.type.toUpperCase();
-    d.innerHTML = `
-      <div class="etm">Il y a ${ev.time}</div>
+  const list=document.getElementById('evlist');
+  list.innerHTML='';
+  const data=front==='all'?allEvs:allEvs.filter(e=>e.front===front);
+  if(!data.length){list.innerHTML='<div style="padding:14px 12px;font-size:11px;color:var(--t3)">Aucun évènement.</div>';return;}
+  data.slice(0,30).forEach(ev=>{
+    const d=document.createElement('div');
+    d.className='ev';
+    d.innerHTML=`<div class="etm">Il y a ${ev.time}</div>
       <div class="etit">${ev.title}</div>
-      <div class="etags"><span class="etag et-${ev.type}">${lbl}</span></div>
+      <div class="etags"><span class="etag et-${ev.type}">${LABELS[ev.type]||ev.type}</span></div>
       <div class="esrc">${ev.src}</div>`;
-    d.onclick = () => map.flyTo([ev.lat, ev.lng], 10, {animate:true, duration:1});
+    d.onclick=()=>map.flyTo([ev.lat,ev.lng],10,{animate:true,duration:1});
     list.appendChild(d);
   });
 }
 
 function updateStats(evs) {
-  const c = {strikes:0,ground:0,missiles:0,naval:0,diplo:0};
-  evs.forEach(e => { if(c[e.type]!==undefined) c[e.type]++; });
-  const tot = evs.length;
-  document.getElementById('sv-tot').textContent = tot;
-  document.getElementById('sd-tot').textContent = '+' + Math.round(tot * 0.17) + ' vs hier';
-  document.getElementById('sv-str').textContent = c.strikes;
-  document.getElementById('sv-mis').textContent = c.missiles;
-  Object.keys(c).forEach(k => {
-    const el = document.getElementById('cnt-'+k);
-    if (el) el.textContent = c[k];
-  });
+  const c={strikes:0,ground:0,missiles:0,naval:0,diplo:0};
+  evs.forEach(e=>{if(c[e.type]!==undefined)c[e.type]++;});
+  document.getElementById('sv-tot').textContent=evs.length;
+  document.getElementById('sd-tot').textContent='+'+Math.round(evs.length*.17)+' vs hier';
+  document.getElementById('sv-str').textContent=c.strikes;
+  document.getElementById('sv-mis').textContent=c.missiles;
+  Object.keys(c).forEach(k=>{const el=document.getElementById('cnt-'+k);if(el)el.textContent=c[k];});
 }
 
 function loadData(evs) {
-  allEvs = evs;
-  updateStats(evs);
-  renderList(curFront);
-  drawMarkers(curFront === 'all' ? evs : evs.filter(e => e.front === curFront));
+  allEvs=evs; updateStats(evs); renderList(curFront);
+  drawMarkers(curFront==='all'?evs:evs.filter(e=>e.front===curFront));
 }
 
-// ============================================================
-// ACLED API
-// ============================================================
-function setACLEDStatus(state, msg) {
-  const box = document.getElementById('acled-hdr');
-  const dot = box.querySelector('.apdot');
-  const lbl = box.querySelector('.aplbl');
-  if (state === 'ok')   { dot.className = 'apdot ok';   lbl.textContent = `ACLED — ${msg}`; }
-  if (state === 'warn') { dot.className = 'apdot warn';  lbl.textContent = `ACLED — ${msg}`; }
-  if (state === 'off')  { dot.className = 'apdot off';   lbl.textContent = `ACLED — ${msg}`; }
+// ================================================================
+// ACLED — NOUVEAU SYSTÈME OAUTH (email + password)
+// Documentation: https://acleddata.com/api-documentation/getting-started
+// ================================================================
+function setStatus(state, msg) {
+  const dot=document.querySelector('#acled-hdr .apdot');
+  const lbl=document.querySelector('#acled-hdr .aplbl');
+  if(state==='ok'){dot.className='apdot ok';lbl.textContent='ACLED — '+msg;}
+  if(state==='warn'){dot.className='apdot warn';lbl.textContent='ACLED — '+msg;}
+  if(state==='off'){dot.className='apdot off';lbl.textContent='ACLED — '+msg;}
+}
+
+function showMsg(txt, type='warn') {
+  const z=document.getElementById('msg-zone');
+  z.textContent=txt; z.className='msg-'+type;
+}
+
+// Étape 1 : obtenir le token OAuth avec email + password
+async function getToken(email, password) {
+  const res = await fetch('https://acleddata.com/oauth/token', {
+    method: 'POST',
+    headers: {'Content-Type':'application/x-www-form-urlencoded'},
+    body: new URLSearchParams({
+      username: email,
+      password: password,
+      grant_type: 'password',
+      client_id: 'acled',
+      scope: 'authenticated'
+    })
+  });
+  if(!res.ok) throw new Error('Identifiants incorrects (HTTP '+res.status+')');
+  const d = await res.json();
+  if(!d.access_token) throw new Error('Token non reçu — vérifie tes identifiants');
+  return d.access_token;
+}
+
+// Étape 2 : requêter les données avec le token
+async function fetchWithToken(token) {
+  const since = new Date(); since.setDate(since.getDate()-90);
+  const s = since.toISOString().split('T')[0];
+  const params = new URLSearchParams({
+    region:'11,12', event_date:s, event_date_where:'>', limit:'300',
+    fields:'latitude|longitude|event_type|notes|event_date|fatalities|source', format:'json'
+  });
+  const res = await fetch(`https://acleddata.com/api/acled/read?${params}`, {
+    headers: { 'Authorization': 'Bearer '+token }
+  });
+  if(!res.ok) throw new Error('Erreur API (HTTP '+res.status+')');
+  const d = await res.json();
+  if(!Array.isArray(d.data)) throw new Error('Format de réponse inattendu');
+  return d.data;
 }
 
 function typeMap(t) {
-  if (!t) return 'strikes';
-  const s = t.toLowerCase();
-  if (s.includes('air') || s.includes('drone')) return 'strikes';
-  if (s.includes('remote') || s.includes('explo')) return 'missiles';
-  if (s.includes('battle') || s.includes('clash')) return 'ground';
-  if (s.includes('strategic')) return 'diplo';
+  if(!t) return 'strikes';
+  const s=t.toLowerCase();
+  if(s.includes('air')||s.includes('drone')) return 'strikes';
+  if(s.includes('remote')||s.includes('explo')) return 'missiles';
+  if(s.includes('battle')||s.includes('clash')) return 'ground';
+  if(s.includes('strategic')) return 'diplo';
   return 'strikes';
 }
-
-function guessFront(lat, lng) {
-  if (lat>30&&lat<33&&lng>34&&lng<35.5) return 'gaza';
-  if (lat>33&&lat<35&&lng>35&&lng<37)   return 'liban';
-  if (lat>24&&lat<40&&lng>44&&lng<64)   return 'iran';
-  if (lat>12&&lat<18&&lng>42&&lng<50)   return 'yemen';
-  if (lat>32&&lat<38&&lng>35&&lng<43)   return 'syrie';
-  if (lat>29&&lat<38&&lng>38&&lng<46)   return 'irak';
+function guessFront(lat,lng) {
+  if(lat>30&&lat<33&&lng>34&&lng<35.5) return 'gaza';
+  if(lat>33&&lat<35&&lng>35&&lng<37)   return 'liban';
+  if(lat>24&&lat<40&&lng>44&&lng<64)   return 'iran';
+  if(lat>12&&lat<18&&lng>42&&lng<50)   return 'yemen';
+  if(lat>32&&lat<38&&lng>35&&lng<43)   return 'syrie';
+  if(lat>29&&lat<38&&lng>38&&lng<46)   return 'irak';
   return 'global';
 }
 
-async function fetchACLED() {
-  setACLEDStatus('warn', 'chargement…');
-  const since = new Date(); since.setDate(since.getDate()-90);
-  const s = since.toISOString().split('T')[0];
-  const p = new URLSearchParams({key:acledKey, email:acledEmail,
-    region:'11,12', event_date:s, event_date_where:'>', limit:'300',
-    fields:'data_id|latitude|longitude|event_type|notes|event_date|fatalities|source', format:'json'});
-  try {
-    const r = await fetch(`https://api.acleddata.com/acled/read?${p}`);
-    const d = await r.json();
-    if (d.status !== 200 || !Array.isArray(d.data)) throw new Error(d.error || 'Auth failed');
-    const evs = d.data.map((ev,i) => {
-      const lat = parseFloat(ev.latitude), lng = parseFloat(ev.longitude);
-      const type = typeMap(ev.event_type);
-      return {lat, lng, type, front: guessFront(lat,lng),
-        title: (ev.notes||ev.event_type||'').substring(0,80),
-        src: ev.source||'ACLED', time: ev.event_date||'—',
-        fat: parseInt(ev.fatalities)||0};
-    }).filter(e => !isNaN(e.lat) && !isNaN(e.lng));
-    setACLEDStatus('ok', `${evs.length} évènements chargés`);
-    return evs;
-  } catch(err) {
-    setACLEDStatus('off', 'erreur auth');
-    return null;
-  }
-}
-
-async function saveACLED() {
-  acledKey   = document.getElementById('inp-key').value.trim();
-  acledEmail = document.getElementById('inp-email').value.trim();
-  if (!acledKey || !acledEmail) { alert('Entrez votre email et votre clé API.'); return; }
+async function connectACLED() {
+  const email = document.getElementById('inp-email').value.trim();
+  const pass  = document.getElementById('inp-pass').value;
+  if(!email||!pass){showMsg('Entre ton email et ton mot de passe ACLED.','warn');return;}
   const btn = document.getElementById('savebtn');
-  btn.textContent = 'Connexion…'; btn.disabled = true;
-  const evs = await fetchACLED();
-  btn.textContent = 'Connecter et charger les données'; btn.disabled = false;
-  if (evs && evs.length) { loadData(evs); closeCfg(); }
-  else if (evs) { alert('Connexion OK mais 0 résultats pour la région.'); closeCfg(); }
+  btn.textContent='Connexion en cours…'; btn.disabled=true;
+  showMsg('Authentification OAuth…','warn');
+  try {
+    // 1. Obtenir le token
+    accessToken = await getToken(email, pass);
+    showMsg('Token obtenu, chargement des données…','warn');
+    // 2. Charger les données
+    const raw = await fetchWithToken(accessToken);
+    const evs = raw.map(ev=>{
+      const lat=parseFloat(ev.latitude), lng=parseFloat(ev.longitude);
+      const type=typeMap(ev.event_type);
+      return {lat,lng,type,front:guessFront(lat,lng),
+        title:(ev.notes||ev.event_type||'').substring(0,80),
+        src:ev.source||'ACLED', time:ev.event_date||'—', fat:parseInt(ev.fatalities)||0};
+    }).filter(e=>!isNaN(e.lat)&&!isNaN(e.lng));
+    setStatus('ok', evs.length+' évènements chargés');
+    loadData(evs);
+    showMsg('✓ '+evs.length+' évènements chargés avec succès','ok');
+    setTimeout(closeCfg, 1200);
+  } catch(err) {
+    showMsg('Erreur : '+err.message,'err');
+    setStatus('off','erreur connexion');
+  }
+  btn.textContent='Se connecter et charger les données'; btn.disabled=false;
 }
 
-function openCfg()  { document.getElementById('modal').classList.add('show'); }
+function openCfg()  { document.getElementById('modal').classList.add('show'); document.getElementById('msg-zone').textContent=''; }
 function closeCfg() { document.getElementById('modal').classList.remove('show'); }
 
-// ============================================================
+// ================================================================
 // CLOCK
-// ============================================================
+// ================================================================
 function clock() {
-  const n = new Date(), p = v => String(v).padStart(2,'0');
-  document.getElementById('clk').textContent = `${p(n.getUTCHours())}:${p(n.getUTCMinutes())}:${p(n.getUTCSeconds())} UTC`;
+  const n=new Date(),p=v=>String(v).padStart(2,'0');
+  document.getElementById('clk').textContent=`${p(n.getUTCHours())}:${p(n.getUTCMinutes())}:${p(n.getUTCSeconds())} UTC`;
 }
 
-// ============================================================
+// ================================================================
 // INIT
-// ============================================================
-window.addEventListener('load', () => {
-  initMap();
-  loadData(EVENTS);
-  clock();
-  setInterval(clock, 1000);
-
-  document.getElementById('opencfg').addEventListener('click', openCfg);
-  document.getElementById('modal').addEventListener('click', e => { if(e.target===e.currentTarget) closeCfg(); });
-
-  // Auto-refresh ACLED toutes les 5 min si configuré
-  setInterval(() => {
-    if (acledKey && acledEmail) fetchACLED().then(e => e && e.length && loadData(e));
+// ================================================================
+window.addEventListener('load',()=>{
+  initMap(); loadData(EVENTS); clock(); setInterval(clock,1000);
+  document.getElementById('opencfg').addEventListener('click',openCfg);
+  document.getElementById('modal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeCfg();});
+  // Auto-refresh toutes les 5 min si connecté
+  setInterval(()=>{
+    if(accessToken) fetchWithToken(accessToken).then(raw=>{
+      const evs=raw.map(ev=>{
+        const lat=parseFloat(ev.latitude),lng=parseFloat(ev.longitude),type=typeMap(ev.event_type);
+        return{lat,lng,type,front:guessFront(lat,lng),title:(ev.notes||ev.event_type||'').substring(0,80),
+          src:ev.source||'ACLED',time:ev.event_date||'—',fat:parseInt(ev.fatalities)||0};
+      }).filter(e=>!isNaN(e.lat)&&!isNaN(e.lng));
+      if(evs.length) loadData(evs);
+    }).catch(()=>{});
   }, 300000);
 });
 </script>
